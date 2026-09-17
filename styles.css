@@ -364,3 +364,22 @@ main{max-width:none;padding:18px 22px 28px}
 @media(max-width:620px){
   main{padding:12px}.topbar{height:68px}.welcome-block small{display:none}.welcome-block b{font-size:12px}.hero-stage{min-height:0}.neon-copy{padding:26px 18px}.neon-copy h1{font-size:44px}.crew-orbit{min-height:390px}.composer-actions{align-items:stretch;flex-direction:column}.launch-xl{width:100%}.tool-pills{display:grid;grid-template-columns:1fr 1fr 1fr}.tool-pills button{padding:7px 6px}.specialist-node{width:102px;padding:8px}.node-strategy{left:42%}.node-coding{left:2%}.node-writing{right:2%}.node-analysis{left:3%}.node-creative{right:3%}.core-orb{width:108px;height:108px}.core-orb img{width:45px;height:45px}.recent-row{grid-template-columns:32px 1fr auto}.recent-arrow{display:none}.mission-status{font-size:7px;padding:4px 6px}
 }
+
+
+/* ===== Token contract address ===== */
+.ca-strip{
+  width:100%;max-width:670px;margin:18px 0 4px;padding:12px 14px;
+  display:flex;align-items:center;gap:10px;text-align:left;
+  color:#eaf7ff;background:linear-gradient(90deg,rgba(9,19,43,.96),rgba(20,14,54,.96),rgba(38,13,48,.92));
+  border:1px solid rgba(84,231,255,.42);border-radius:12px;
+  box-shadow:0 0 0 1px rgba(255,116,204,.08) inset,0 10px 30px rgba(0,0,0,.26),0 0 24px rgba(84,231,255,.09);
+  cursor:pointer;transition:.18s ease;position:relative;overflow:hidden;
+}
+.ca-strip:before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.06) 45%,transparent 70%);transform:translateX(-120%);transition:.45s ease;pointer-events:none}
+.ca-strip:hover{transform:translateY(-1px);border-color:rgba(255,116,204,.68);box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 28px rgba(122,107,255,.14)}
+.ca-strip:hover:before{transform:translateX(120%)}
+.ca-label{font:800 11px ui-monospace,monospace;letter-spacing:.14em;color:#7ef0ff;flex:none}
+.ca-strip code{font:700 11px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none}
+.ca-copy{margin-left:auto;flex:none;font:800 9px ui-monospace,monospace;letter-spacing:.11em;color:#ff9ddd;border:1px solid rgba(255,116,204,.35);background:rgba(255,116,204,.07);padding:5px 7px;border-radius:7px}
+.ca-strip.copied .ca-copy{color:#76eab9;border-color:rgba(102,240,184,.4);background:rgba(102,240,184,.08)}
+@media(max-width:620px){.ca-strip{padding:10px 11px;gap:7px}.ca-strip code{font-size:9px}.ca-label{font-size:10px}.ca-copy{font-size:8px}}

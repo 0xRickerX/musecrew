@@ -429,6 +429,22 @@ function randomTask(){
 document.addEventListener("DOMContentLoaded",()=>{
   renderDashboard();renderMuses();renderMarket();renderBuilder();renderLeaderboard();renderRuns();bindViewButtons();
 
+  const copyCA = $("#copyCA");
+  if(copyCA){
+    copyCA.addEventListener("click", async ()=>{
+      const ca=copyCA.dataset.ca;
+      try{
+        await navigator.clipboard.writeText(ca);
+      }catch{
+        const ta=document.createElement("textarea"); ta.value=ca; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+      }
+      const state=$("#caCopyState");
+      copyCA.classList.add("copied");
+      if(state) state.textContent="COPIED";
+      setTimeout(()=>{ copyCA.classList.remove("copied"); if(state) state.textContent="COPY"; },1400);
+    });
+  }
+
   $("#menuBtn").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
   const gs=$("#globalSearch");
   if(gs){

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#070917" />
+  <title>MuseCrew — Multi-Agent Work Network</title>
+  <meta name="description" content="MuseCrew assembles specialist AI muses into crews that plan, execute and verify work." />
+  <link rel="stylesheet" href="./styles.css?v=neon-final-1" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-noise"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-view="dashboard">
+      <img src="./assets/logo.png" alt="MuseCrew" />
+      <div>
+        <b>Muse<span>Crew</span></b>
+        <small>agent network</small>
+      </div>
+    </a>
+
+    <nav class="side-nav">
+      <button class="nav-item active" data-view="dashboard"><span>⌂</span> Overview</button>
+      <button class="nav-item" data-view="muses"><span>✦</span> Muses <em>8</em></button>
+      <button class="nav-item" data-view="marketplace"><span>◫</span> Marketplace <em>12</em></button>
+      <button class="nav-item" data-view="builder"><span>⌘</span> Crew Builder</button>
+      <button class="nav-item" data-view="runs"><span>↻</span> Runs</button>
+      <button class="nav-item" data-view="leaderboard"><span>↗</span> Leaderboard</button>
+    </nav>
+
+    <div class="side-status credits-card">
+      <div class="credits-head"><span>⚡</span><b>Network credits</b><em>›</em></div>
+      <div class="credits-track"><i></i></div>
+      <small>382 / 500 available</small>
+    </div>
+
+    <div class="side-foot">
+      <span>MuseCrew v0.3</span>
+      
+    </div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="welcome-block">
+        <span class="welcome-sun">✦</span>
+        <div><b>Good afternoon</b><small>Ready to build something amazing?</small></div>
+      </div>
+      <div class="top-search">⌕ <input id="globalSearch" placeholder="Search missions, muses, or tools..." /><kbd>⌘ K</kbd></div>
+      <div class="top-actions">
+        <button class="top-chip"><span class="online-dot"></span> 8 online</button>
+        <button class="primary small" id="quickLaunchBtn">+ Launch task</button>
+      </div>
+      <b id="viewTitle" class="sr-only">Overview</b>
+    </header>
+
+    <main>
+      <!-- DASHBOARD -->
+      <section class="view active" id="view-dashboard">
+        <div class="workspace-grid">
+          <div class="workspace-main">
+            <section class="hero-stage panel">
+              <div class="hero-copy neon-copy">
+                <div class="eyebrow">IDEAS &nbsp;→&nbsp; AGENTS &nbsp;→&nbsp; REAL RESULTS</div>
+                <h1>One task.<br>One specialist<br><span>crew out.</span></h1>
+                <p>MuseCrew decomposes complex goals, assembles the right AI specialists, and delivers production-ready results.</p>
+                <div class="hero-benefits">
+                  <div><span class="benefit-icon cyan">⚡</span><b>Faster</b><small>execution</small></div>
+                  <div><span class="benefit-icon purple">◎</span><b>Higher</b><small>quality</small></div>
+                  <div><span class="benefit-icon orange">★</span><b>Built for</b><small>real work</small></div>
+                </div>
+              </div>
+
+              <div class="crew-orbit">
+                <div class="orbit-glow"></div>
+                <svg class="orbit-svg" viewBox="0 0 520 430" aria-hidden="true">
+                  <circle cx="260" cy="212" r="114"></circle>
+                  <circle cx="260" cy="212" r="164"></circle>
+                  <path d="M260 212 L148 108"></path>
+                  <path d="M260 212 L378 118"></path>
+                  <path d="M260 212 L147 318"></path>
+                  <path d="M260 212 L384 316"></path>
+                </svg>
+                <div class="core-orb">
+                  <img src="./assets/logo.png" alt="MuseCrew" />
+                  <b>MuseCrew</b><small>AI ORCHESTRATOR</small>
+                </div>
+                <div class="specialist-node node-strategy"><span class="node-icon">◉</span><b>Strategy Muse</b><small>Research & planning</small></div>
+                <div class="specialist-node node-coding"><span class="node-icon">&lt;/&gt;</span><b>Coding Muse</b><small>Build & implement</small></div>
+                <div class="specialist-node node-writing"><span class="node-icon">▤</span><b>Writing Muse</b><small>Content & docs</small></div>
+                <div class="specialist-node node-analysis"><span class="node-icon">▥</span><b>Analysis Muse</b><small>Data & insights</small></div>
+                <div class="specialist-node node-creative"><span class="node-icon">◫</span><b>Creative Muse</b><small>Design & media</small></div>
+              </div>
+            </section>
+
+            <section class="composer panel">
+              <div class="composer-title"><span class="spark">✦</span><b>Tell your crew what to build</b></div>
+              <textarea id="heroTask" rows="4" placeholder="Describe your goal, and MuseCrew will assemble the right specialists...">Research the fastest-growing AI developer tools and build a launch brief.</textarea>
+              <div class="composer-actions">
+                <div class="tool-pills">
+                  <button data-preset="Research 20 Chinese AI startups and build a concise report.">＋ Research</button>
+                  <button data-preset="Build a landing page for a new AI product and write the copy.">◎ Web search</button>
+                  <button data-preset="Analyze the AI agent market and create a launch strategy.">✦ Deep research</button>
+                </div>
+                <button class="primary launch-xl" id="heroLaunch">Launch Crew <span>→</span></button>
+              </div>
+            </section>
+
+            <section class="recent-panel panel">
+              <div class="panel-title"><div><span class="recent-icon">◷</span><b>Recent missions</b></div><button data-view="runs" class="text-btn">View all →</button></div>
+              <div id="recentMissions" class="recent-list"></div>
+            </section>
+          </div>
+
+          <aside class="output-console panel">
+            <div class="output-head">
+              <div class="output-badge"><span>↗</span> FINAL DELIVERABLE</div>
+              <span class="verified-pill">✓ <span id="outputVerifiedCount">3/3</span> VERIFIED</span>
+            </div>
+            <h2 id="outputTitle">AI Coding Agent: Complete Launch Strategy</h2>
+            <div class="output-tabs"><button class="active">Output</button><button>Process</button><button>Files <span id="fileCount">12</span></button></div>
+            <div class="output-log" id="outputLog">
+              <div><span class="ok">[OK]</span> Strategy Muse: complete</div>
+              <div><span class="ok">[OK]</span> Coding Muse: complete</div>
+              <div><span class="ok">[OK]</span> Writing Muse: complete</div>
+              <div class="pink">&gt; specialists submitted work</div>
+              <div class="pink">&gt; generating final deliverable...</div>
+              <div>&gt; accepted: Writing Muse</div>
+              <div>&gt; accepted: Coding Muse</div>
+              <div>&gt; accepted: Strategy Muse</div>
+              <div class="ok">&gt; Lead Muse synthesized final result</div>
+            </div>
+            <div class="output-document" id="outputDocument">
+              <div class="doc-head"><span class="doc-icon">▤</span><b>AI Coding Agent: Complete Launch Strategy</b><span>•••</span></div>
+              <div class="doc-body">
+                <h3>STRATEGIC FOUNDATION</h3>
+                <h4>Positioning</h4>
+                <div class="insight-card"><span>💡</span><p><b>Core Promise:</b> The coding agent that works <em>with</em> your thinking — not around it.</p></div>
+                <p>Pick one differentiator and own it ruthlessly:</p>
+                <ul>
+                  <li><b>Speed</b> — X hours saved per developer per week</li>
+                  <li><b>Context retention</b> — actually understands your codebase</li>
+                  <li><b>Safety</b> — verifiable output, fewer hallucinations</li>
+                </ul>
+                <h4>Target Segments</h4>
+                <ol><li>Solo developers & indie hackers</li><li>Startup engineering teams</li><li>Developer-tool builders</li></ol>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MUSES -->
+      <section class="view" id="view-muses">
+        <div class="page-head">
+          <div><div class="eyebrow">AGENT REGISTRY</div><h2>Specialist muses</h2><p>Every Muse has a role, skill graph, reputation and execution history.</p></div>
+          <div class="filters">
+            <button class="filter active" data-filter="all">All</button>
+            <button class="filter" data-filter="technical">Technical</button>
+            <button class="filter" data-filter="research">Research</button>
+            <button class="filter" data-filter="creative">Creative</button>
+          </div>
+        </div>
+        <div class="muse-grid" id="museGrid"></div>
+      </section>
+
+      <!-- MARKETPLACE -->
+      <section class="view" id="view-marketplace">
+        <div class="page-head">
+          <div><div class="eyebrow">TASK MARKETPLACE</div><h2>Open work</h2><p>Browse tasks and assign the network to the ones you want to run.</p></div>
+          <button class="primary small" id="postTaskBtn">+ New task</button>
+        </div>
+        <div class="market-toolbar panel">
+          <input id="marketSearch" type="search" placeholder="Search tasks, skills or categories..." />
+          <div class="market-filters">
+            <button class="filter active" data-market="all">All</button>
+            <button class="filter" data-market="research">Research</button>
+            <button class="filter" data-market="build">Build</button>
+            <button class="filter" data-market="strategy">Strategy</button>
+          </div>
+        </div>
+        <div class="market-grid" id="marketGrid"></div>
+      </section>
+
+      <!-- BUILDER -->
+      <section class="view" id="view-builder">
+        <div class="page-head">
+          <div><div class="eyebrow">MANUAL ORCHESTRATION</div><h2>Crew Builder</h2><p>Pick your own specialists instead of letting the Lead Muse auto-match them.</p></div>
+          <span class="selection-count" id="selectionCount">0 / 4 selected</span>
+        </div>
+
+        <div class="builder-layout">
+          <section class="panel builder-left">
+            <div class="builder-task">
+              <label>Task</label>
+              <textarea id="builderTask" rows="4">Build a launch package for a new multi-agent developer tool.</textarea>
+            </div>
+            <div class="builder-muses" id="builderMuses"></div>
+          </section>
+
+          <aside class="panel crew-summary">
+            <div class="panel-title"><b>Your crew</b><span id="crewScore">0.0 score</span></div>
+            <div id="selectedCrew" class="selected-crew empty-state">Select up to 4 muses.</div>
+            <div class="crew-analysis">
+              <div><span>Skill coverage</span><b id="coverageValue">0%</b></div>
+              <div class="bar"><i id="coverageBar"></i></div>
+              <div class="crew-tags" id="crewTags"></div>
+            </div>
+            <button class="primary full" id="runManualCrew" disabled>Run selected crew →</button>
+          </aside>
+        </div>
+      </section>
+
+      <!-- RUNS -->
+      <section class="view" id="view-runs">
+        <div class="page-head">
+          <div><div class="eyebrow">EXECUTION RECEIPTS</div><h2>Run history</h2><p>Every run records the task, crew, stages and verification state.</p></div>
+          <button class="ghost" id="clearRuns">Clear local history</button>
+        </div>
+        <div class="runs-layout">
+          <section class="panel run-list" id="runList"></section>
+          <section class="panel run-detail" id="runDetail">
+            <div class="empty-detail">
+              <span>↻</span>
+              <b>Select a run</b>
+              <p>Execution receipt details will appear here.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- LEADERBOARD -->
+      <section class="view" id="view-leaderboard">
+        <div class="page-head">
+          <div><div class="eyebrow">REPUTATION NETWORK</div><h2>Leaderboard</h2><p>Ranking is based on reputation, verified jobs and success rate.</p></div>
+          <div class="leader-legend"><span>REP</span><span>JOBS</span><span>SUCCESS</span></div>
+        </div>
+        <div class="panel leaderboard" id="leaderboard"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- RUN DRAWER -->
+  <div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
+  <aside class="run-drawer hidden" id="runDrawer">
+    <div class="drawer-head">
+      <div><div class="eyebrow">LIVE EXECUTION</div><h3 id="drawerTitle">Building crew...</h3></div>
+      <button class="icon-btn" id="closeDrawer">×</button>
+    </div>
+
+    <div class="drawer-task" id="drawerTask"></div>
+
+    <div class="stage-track">
+      <div class="drawer-stage active" data-stage="plan"><span>01</span><b>Plan</b></div>
+      <i>→</i>
+      <div class="drawer-stage" data-stage="match"><span>02</span><b>Match</b></div>
+      <i>→</i>
+      <div class="drawer-stage" data-stage="execute"><span>03</span><b>Execute</b></div>
+      <i>→</i>
+      <div class="drawer-stage" data-stage="verify"><span>04</span><b>Verify</b></div>
+      <i>→</i>
+      <div class="drawer-stage" data-stage="deliver"><span>05</span><b>Deliver</b></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Crew</div>
+      <div id="drawerCrew" class="drawer-crew"></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Execution log</div>
+      <div id="drawerLog" class="terminal"></div>
+    </div>
+
+    <div class="receipt hidden" id="drawerReceipt"></div>
+  </aside>
+
+  <!-- MUSE MODAL -->
+  <div class="modal-backdrop hidden" id="modalBackdrop"></div>
+  <div class="muse-modal hidden" id="museModal">
+    <button class="icon-btn modal-close" id="closeMuse">×</button>
+    <div id="museModalBody"></div>
+  </div>
+
+  <script src="./app.js?v=neon-final-1"></script>
+</body>
+</html>

@@ -1,58 +1,263 @@
-# MuseCrew Platform
+<div align="center">
+  <img src="assets/logo.png" width="120" alt="MuseCrew logo" />
 
-MuseCrew Platform is a richer browser-based product prototype for the public MuseCrew site.
+  # MuseCrew
 
-## Included
+  **A multi-agent AI workspace that assembles specialist muses to plan, execute, verify, and deliver real work.**
 
-- Overview dashboard
-- Live multi-agent execution drawer
-- Muse registry + profile modals
-- Task marketplace
-- Manual Crew Builder
-- Run receipts + local run history
-- Reputation leaderboard
-- Local persistence via `localStorage`
-- Responsive desktop/mobile UI
+  [**Live App → musecrew.app**](https://musecrew.app)
 
-## Important
+  `Multi-Agent Orchestration` · `Anthropic Claude` · `Vercel` · `Serverless`
+</div>
 
-This is an interactive **prototype**. The orchestration and execution stages are simulated client-side for the demo; no external LLM provider is called yet.
+---
+
+## What is MuseCrew?
+
+MuseCrew turns one user task into a coordinated AI workflow.
+
+Instead of sending the entire request to a single generic assistant, MuseCrew decomposes the task, matches the work to specialist agents, runs those specialists in parallel, and uses a Lead Muse to synthesize the final result.
+
+```text
+ONE TASK
+   ↓
+LEAD MUSE
+   ↓
+PLAN + DECOMPOSE
+   ↓
+MATCH SPECIALISTS
+   ↓
+EXECUTE IN PARALLEL
+   ↓
+VERIFY
+   ↓
+FINAL DELIVERABLE
+```
+
+The current production build is live at **[musecrew.app](https://musecrew.app)**.
+
+---
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[User Task] --> B[Lead Muse]
+    B --> C[Plan & Decompose]
+    C --> D[Specialist Matching]
+
+    D --> E1[Research Muse]
+    D --> E2[Coding Muse]
+    D --> E3[Writing Muse]
+    D --> E4[Strategy / Data / Design Muse]
+
+    E1 --> F[Specialist Outputs]
+    E2 --> F
+    E3 --> F
+    E4 --> F
+
+    F --> G[Lead Muse Synthesis]
+    G --> H[Verification]
+    H --> I[Final Deliverable]
+```
+
+Each run creates a visible execution path and a receipt that records the task, selected crew, match scores, verification state, and final output.
+
+---
+
+## Specialist Muse Network
+
+MuseCrew currently ships with a registry of specialist agents built around different work profiles:
+
+| Muse | Primary role | Example capabilities |
+|---|---|---|
+| **Research Muse** | Research Specialist | web research, sources, synthesis |
+| **Coding Muse** | Software Builder | code, APIs, JavaScript, Python |
+| **Writing Muse** | Content Synthesizer | writing, editing, structured output |
+| **Data Muse** | Data Analyst | analysis, structured data, insights |
+| **Design Muse** | Product Designer | UI, UX, visual direction |
+| **Web Muse** | Web Operator | browsing, scraping, research |
+| **Verification Muse** | Quality Verifier | QA, review, fact-checking |
+| **Strategy Muse** | Lead Planner | planning, decomposition, coordination |
+
+The automatic router scores specialists against the subtasks generated from the user's request and assembles the crew dynamically.
+
+---
+
+## Product Surfaces
+
+### Overview
+The main workspace for launching tasks and seeing MuseCrew's orchestration layer in action.
+
+### Muses
+Explore specialist profiles, capabilities, reputation, job history, and execution metrics.
+
+### Marketplace
+Browse predefined work requests and launch them directly through the MuseCrew network.
+
+### Crew Builder
+Manually assemble a crew of up to four specialist muses when you want direct control over agent selection.
+
+### Runs
+Every completed task creates an execution receipt with the selected crew and final deliverable.
+
+### Leaderboard
+A reputation-oriented view of the current Muse network.
+
+---
+
+## Real AI Execution
+
+MuseCrew is connected to the **Anthropic Claude API** through a Vercel serverless endpoint.
+
+For every live task:
+
+1. the frontend sends the task and selected Muse roles to `/api/run`;
+2. specialist Claude calls execute their assigned subtasks **in parallel**;
+3. their outputs are collected server-side;
+4. the Lead Muse receives the specialist contributions;
+5. Claude synthesizes them into one final response;
+6. MuseCrew renders the result as a **Final Deliverable** and stores a local run receipt.
+
+The API key never reaches the browser.
+
+```text
+Browser
+  ↓
+/api/run.js
+  ↓
+Anthropic Messages API
+  ↓
+Specialist calls in parallel
+  ↓
+Lead Muse synthesis
+  ↓
+Final Deliverable
+```
+
+---
+
+## Architecture
+
+```text
+musecrew/
+├── api/
+│   └── run.js          # Anthropic-backed orchestration endpoint
+├── assets/
+│   └── logo.png        # MuseCrew visual identity
+├── app.js              # product state + agent routing + UI behavior
+├── index.html          # application shell
+├── styles.css          # neon interface system
+├── package.json        # project metadata / runtime settings
+├── vercel.json         # Vercel deployment configuration
+└── README.md
+```
+
+### Frontend
+
+- Vanilla JavaScript
+- Responsive HTML/CSS interface
+- Multi-view application shell
+- Local run persistence with `localStorage`
+- Dynamic crew matching and execution visualization
+
+### Backend
+
+- Vercel Serverless Function
+- Anthropic Messages API
+- Parallel specialist inference
+- Lead Muse synthesis pass
+- Environment-based API secret handling
+
+---
 
 ## Run locally
 
-Open `index.html` directly, or:
+Clone the repository:
+
+```bash
+git clone https://github.com/0xRickerX/musecrew.git
+cd musecrew
+```
+
+Serve the frontend locally:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open `http://localhost:8080`.
+Then open:
 
-## Deploy
+```text
+http://localhost:8080
+```
 
-Upload the contents of this folder to the same Vercel project that currently serves `musecrew.app`.
+> The interface can be explored locally, but live Claude execution requires the serverless API environment to be configured.
 
-## Real AI deliverables — Anthropic
+---
 
-This build includes `/api/run.js`, a Vercel serverless endpoint that:
+## Environment Variables
 
-1. sends the user task to the selected specialist Muses in parallel,
-2. collects their Claude contributions,
-3. asks a Lead Muse to synthesize one final deliverable,
-4. returns that answer to the execution drawer,
-5. stores the final result in local run history.
+MuseCrew requires one secret in production:
 
-### Required Vercel environment variable
+```text
+ANTHROPIC_API_KEY=your_anthropic_api_key
+```
 
-`ANTHROPIC_API_KEY`
+Optional model override:
 
-### Optional
+```text
+ANTHROPIC_MODEL=claude-sonnet-4-6
+```
 
-`ANTHROPIC_MODEL`
+If `ANTHROPIC_MODEL` is not set, the backend defaults to `claude-sonnet-4-6`.
 
-Default:
+**Never commit an API key to this repository.** Keep secrets in Vercel Environment Variables or your deployment platform's secret manager.
 
-`claude-sonnet-4-6`
+---
 
-Never put the API key into `app.js`, `index.html`, or any other browser-side file.
-The key should exist only in Vercel Environment Variables.
+## Deploying to Vercel
+
+The production repository is connected directly to Vercel.
+
+```text
+GitHub main
+    ↓
+Vercel Production Deployment
+    ↓
+https://musecrew.app
+```
+
+Any production-ready commit pushed to `main` can be deployed through the connected Vercel project.
+
+---
+
+## Current Build
+
+- ✅ Public application at **musecrew.app**
+- ✅ Dynamic task decomposition
+- ✅ Automatic specialist matching
+- ✅ Manual Crew Builder
+- ✅ Parallel Claude specialist calls
+- ✅ Lead Muse synthesis
+- ✅ Final Deliverables
+- ✅ Execution receipts and run history
+- ✅ Muse profiles and reputation UI
+- ✅ Task Marketplace
+- ✅ Leaderboard
+- ✅ Responsive desktop/mobile interface
+- ✅ GitHub → Vercel deployment workflow
+
+---
+
+## Next
+
+The architecture is intentionally modular. Natural next extensions include persistent cloud run history, streamed specialist execution, measured reputation signals, richer tool access, and additional model/provider adapters.
+
+---
+
+<div align="center">
+  <strong>One task. One specialist crew. One verified deliverable.</strong>
+  <br/><br/>
+  <a href="https://musecrew.app"><strong>Launch MuseCrew →</strong></a>
+</div>
